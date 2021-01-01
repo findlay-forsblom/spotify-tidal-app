@@ -10,6 +10,8 @@ CLIENT_SECRET = os.getenv("client_secret")
 
 
 
+
+
 sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=CLIENT_ID,
                                                            client_secret=CLIENT_SECRET))
 
@@ -19,6 +21,8 @@ results = sp.playlist_items(birdy_uri)
 tracks = results['items']
 trackList = []
 
+tidalPlaylist = 'Findlays Playlist'
+
 
 def getArtists(artists):
     names = ''
@@ -26,6 +30,12 @@ def getArtists(artists):
         names += artist['name'] +';'
 
     return names
+
+def getPlaylist(playlists):
+    for item in playlists:
+        if item.name == tidalPlaylist:
+            return item
+    return None
 
 while results['next']:
     results = sp.next(results)
@@ -42,3 +52,41 @@ for track in tracks:
 
 print(trackList)
 print(len(trackList))
+
+import tidalapi
+
+session = tidalapi.Session()
+
+
+session.user.id
+favourites = tidalapi.Favorites(session, session.user.id)
+lol3 = session.search('track', 'Mad Love')
+
+
+lol2 = favourites.playlists()
+
+user = tidalapi.User(session, session.user.id)
+playlists = user.playlists()
+playlist = getPlaylist(lol2)
+
+playlist.add_track()
+if playlist:
+    pass
+else:
+    print('Playlist not found pls check spelling')
+
+
+
+
+
+
+
+favourites.add_track(126462760)
+lol = tidalapi.models.Playlist()
+lol.id = 'kkjn'
+lol.add_track(126462760)
+hej = tidalapi
+
+tidalTracks = session.get_playlist_items('1e79e17b-e54c-498e-97e0-a4a27846207e')
+for track in tidalTracks:
+    print(track)
